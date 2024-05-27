@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../styles/styleanimalselection.css">
+  <title>Select Animal</title>
+</head>
+<body>
+  <h1>Select Your Animal</h1>
+  <div class="button-container">
+    <img src="../Images/beaver.png" alt="Beaver" onclick="playGame('Beaver')">
+    <img src="../Images/vole.png" alt="Vole" onclick="playGame('Vole')">
+    <img src="../Images/badger.png" alt="Badger" onclick="playGame('Badger')">
+    <img src="../Images/duck.png" alt="Duck" onclick="playGame('Duck')">
+    <img src="../Images/snake.png" alt="Snake" onclick="playGame('Snake')">
+  </div>
+
+  <script>
+    // Function to play the game with the selected animal
+    function playGame(animal) {
+      window.location.href = `animalgame.html?animal=${animal}`;
+    }
+  </script>
+</body>
+</html>

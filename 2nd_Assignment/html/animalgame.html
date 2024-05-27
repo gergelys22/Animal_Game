@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../styles/styleanimalgame.css">
+  <title>Animal Game</title>
+  <style>
+    canvas {
+      border: 1px solid #000;
+      display: block;
+      margin: 20px auto;
+    }
+
+    #countdown {
+      display: none;
+    }
+
+    button {
+      font-size: 16px;
+      padding: 10px;
+    }
+
+    .login-register {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+
+    .login-register button {
+      font-size: 16px;
+      padding: 10px;
+      margin-left: 5px; /* Távolság a gombok között */
+    }
+
+    .newgame-container {
+      position: absolute;
+      top: 10px;
+      right: 250px;
+    }
+
+    /* Scoreboard container */
+    #scoreboard {
+      margin-top: 75px;
+      margin-left: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      overflow-y: scroll; /* Scrollable scoreboard */
+      height: 400px; /* Fix height to scrolling */
+      width: 80%;
+      max-width: 800px;
+      background: linear-gradient(145deg, #ffffff, #e6e6e6);
+      padding: 20px;
+    }
+
+/* Table styling */
+    #scoreboardtable {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+  /* Table header styling */
+    #scoreboardtable thead tr {
+      background: linear-gradient(45deg, #4caf50, #c0dfdf);
+      color: white;
+    }
+
+    #scoreboardtable th, #scoreboardtable td {
+      padding: 15px;
+      text-align: left;
+    }
+
+    #scoreboardtable th {
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Table body rows */
+    #scoreboardtable tbody tr:nth-child(odd) {
+      background-color: #f9f9f9;
+    }
+
+    #scoreboardtable tbody tr:nth-child(even) {
+      background-color: #e9e9e9;
+    }
+
+    #scoreboardtable tbody tr:hover {
+      background-color: #d1ecf1;
+      cursor: pointer;
+    }
+  
+    /* Add a transition for a smooth hover effect */
+    #scoreboardtable tbody tr {
+      transition: background-color 0.3s ease;
+    }
+
+  </style>
+</head>
+<body>
+
+  <canvas id="gameCanvas" width="800" height="600"></canvas>
+
+  <div class="login-register">
+    <button onclick="openLogin()">Login</button>
+    <button onclick="openRegistration()">Register</button>
+  </div>
+  
+  <div class="newgame-container">
+    <button id = "startNewGame" onclick="newGame()">New Game</button>
+  </div>
+
+  <div id="login-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeLoginModal()">&times;</span>
+      <h2>Login</h2>
+      <form id="login-form" onsubmit="login(event)">
+        <label for="login_username">Username:</label>
+        <input type="text" id="login_username" name="login_username" required><br><br>
+        <label for="login_password">Password:</label>
+        <input type="password" id="login_password" name="login_password" required><br><br>
+        <button type="submit">Login</button>
+        <span id="login_error" style="color: red;"></span> <!-- Hibaüzenet megjelenítésére szolgáló elem -->
+      </form>
+    </div>
+  </div>
+  
+  
+  <div id="registration-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeRegistrationModal()">&times;</span>
+      <h2>Registration</h2>
+      <form id="registration-form" onsubmit="register(event)">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br><br>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br><br>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+        <label for="confirm_password">Confirm Password:</label>
+        <input type="password" id="confirm_password" name="confirm_password" required oninput="checkPasswordMatch()"><br>
+        <span id="password_match"></span><br>
+        <button type="submit">Register</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="scoreboard">
+    <table id="scoreboardtable">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Score</th>
+          <th>Timestamp</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+      </tbody>
+    </table>
+  </div>
+  
+  <script>
+    function howToPlay() {
+      var modal = document.getElementById("modal");
+      modal.style.display = "block";
+    }
+  
+    function closeModal() {
+      var modal = document.getElementById("modal");
+      modal.style.display = "none";
+    }
+  
+    function openLogin() {
+      var modal = document.getElementById("login-modal");
+      modal.style.display = "block";
+    }
+  
+    function openRegistration() {
+      var modal = document.getElementById("registration-modal");
+      modal.style.display = "block";
+    }
+  
+    function closeLoginModal() {
+      var modal = document.getElementById("login-modal");
+      modal.style.display = "none";
+    }
+  
+    function closeRegistrationModal() {
+      var modal = document.getElementById("registration-modal");
+      modal.style.display = "none";
+    }
+  
+    function checkPasswordMatch() {
+      var password = document.getElementById("password").value;
+      var confirm_password = document.getElementById("confirm_password").value;
+      var password_match = document.getElementById("password_match");
+      if (password === confirm_password) {
+        password_match.innerHTML = "Passwords match";
+        password_match.style.color = "green";
+      } else {
+        password_match.innerHTML = "Passwords do not match";
+        password_match.style.color = "red";
+      }
+    }
+
+    function successfulLogin() {
+      setTimeout(function() {
+        openDifficultyModal();
+      }, 2000);
+    }
+
+    function successfulRegistration() {
+      setTimeout(function() {
+        closeRegistrationModal(); // Close the registration modal
+        openLogin(); // Open the login modal
+      }, 2000);
+    }
+
+  
+    function login(event) {
+      event.preventDefault(); // Űrlap beküldésének megakadályozása
+      var username = document.getElementById("login_username").value;
+      var password = document.getElementById("login_password").value;
+      var loginError = document.getElementById("login_error");
+
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", "../php/login_process.php", true);
+      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      xhr.onreadystatechange = function() {
+          if (xhr.readyState == 4 && xhr.status == 200) {
+              if (xhr.responseText.trim() === "OK") {
+                  showMessage("Login successful!");
+                  showUsername(username);
+                  successfulLogin();
+              } else {
+                  loginError.textContent = xhr.responseText; // Hibás bejelentkezés esetén megjeleníti a hibaüzenetet
+              }
+          }
+      };
+      xhr.send("login_username=" + username + "&login_password=" + password);
+    }
+
+    function register(event) {
+      event.preventDefault(); // Prevent form submission
+      var name = document.getElementById("name").value;
+      var username = document.getElementById("username").value;
+      var email = document.getElementById("email").value;
+      var password = document.getElementById("password").value;
+      var confirm_password = document.getElementById("confirm_password").value;
+  
+      // Add validation checks here if needed
+  
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", "../php/registration_process.php", true);
+      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      xhr.onreadystatechange = function() {
+          if (xhr.readyState == 4 && xhr.status == 200) {
+              showMessage(xhr.responseText);
+              showUsername(username);
+              successfulRegistration();
+          }
+      };
+      xhr.send("name=" + name + "&username=" + username + "&email=" + email + "&password=" + password + "&confirm_password=" + confirm_password);
+    }
+  
+    function showMessage(message) {
+      alert(message); // Or any other way to display the message on the page
+    }
+  
+    function showUsername(username) {
+      var loginRegisterDiv = document.querySelector('.login-register');
+      loginRegisterDiv.innerHTML = '<div class="welcome-msg">Welcome, ' + username + '!</div><div class="logout-btn"><button onclick="logout()">Log Out</button></div>';
+    }
+  
+    function logout() {
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", "../php/logout_process.php", true);
+      xhr.onreadystatechange = function() {
+          if (xhr.readyState == 4 && xhr.status == 200) {
+              showMessage("Logout successful!");
+              window.location.reload(); // Oldal újratöltése
+          }
+      };
+      xhr.send();
+    }
+  
+  
+    function checkLoggedInStatus() {
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", "../php/check_user_status.php", true);
+      xhr.onreadystatechange = function() {
+          if (xhr.readyState == 4 && xhr.status == 200) {
+              var loggedIn = xhr.responseText.trim();
+              if (loggedIn === "true") {
+                  // Ha be vagyunk jelentkezve, ne tegyünk semmit
+              } else {
+                  // Ha nem vagyunk bejelentkezve, jelenítsük meg újra a bejelentkezési és regisztrációs lehetőségeket
+                  openLogin();
+              }
+          }
+      };
+      xhr.send();
+    }
+
+  </script>
+
+  <!-- Add this modal HTML structure after the existing content -->
+  <div id="difficultyModal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="closeModal">&times;</span>
+        <h2>Select Difficulty</h2>
+          <label for="difficultyDropdown">Difficulty:</label>
+            <select id="difficultyDropdown">
+              <option value="easy">Easy</option>
+              <option value="medium" selected>Medium</option>
+              <option value="hard">Hard</option>
+              <option value="impossible">Impossible</option>
+            </select>
+      <button id="applyDifficulty">Apply</button>
+    </div>
+  </div>
+
+
+  <div id="scorePopup">
+    <div id="scoreDisplay"></div>
+    <button id="restartButton">Restart</button>
+    <button id="closeButton">Save & Close</button>
+  </div>
+
+  <div id="countdown"></div>
+
+  
+
+  <script src="../js/game.js"></script>
+  <script>
+    // Retrieve the selected animal from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const selectedAnimal = urlParams.get('animal');
+
+    // Modify the game based on the selected animal if needed
+    console.log(`Playing with ${selectedAnimal}!`);
+
+    // Store the selected animal's image
+    const selectedAnimalImage = `../Images/${selectedAnimal.toLowerCase()}.png`;
+    
+    // Set the selected animal in the game
+    setInitialAnimal(selectedAnimalImage);
+
+    initializeGame();
+
+    function openDifficultyModal() {
+    const modal = document.getElementById('difficultyModal');
+    modal.style.display = 'block';
+    }
+
+  // Function to close the difficulty modal
+  function closeDifficultyModal() {
+    const modal = document.getElementById('difficultyModal');
+    modal.style.display = 'none';
+  }
+
+  //Event handler to apply difficulty
+  document.getElementById('applyDifficulty').addEventListener('click', () => {
+  const selectedDifficulty = document.getElementById('difficultyDropdown').value;
+  setDifficulty(selectedDifficulty);
+  closeDifficultyModal();
+  initializeGame(); //Restart the game after set the selected difficulty
+  });
+
+  // Event listener for opening the difficulty modal
+  document.getElementById('restartButton').addEventListener('click', openDifficultyModal);
+
+  // Event listener for closing the difficulty modal
+  document.getElementById('closeModal').addEventListener('click', closeDifficultyModal);
+
+  document.getElementById('startNewGame').addEventListener('click', openDifficultyModal);
+
+  </script>
+</body>
+</html>

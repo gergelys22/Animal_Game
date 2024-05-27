@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../styles/styleindex.css">
+  <title>Animal Game</title>
+  <style>
+    button {
+      font-size: 16px;
+      padding: 10px;
+    }
+
+    .login-register {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+  </style>
+</head>
+<body>
+  
+  <h1>Welcome to the Animal Game!</h1>
+  <button onclick="startGame()">Start Game</button>
+  <script>
+    function startGame() {
+      window.location.href = 'animalSelection.html';
+    }
+  </script>
+
+<button onclick="howToPlay()">How to Play</button>
+
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <h2>Animal Game - How to Play</h2>
+    <p>Animal Game is a simple yet entertaining HTML5 Canvas-based game where you can control a cute animal in an adventurous environment. Your goal is to collect food and avoid obstacles while facing various challenges.</p>
+    <h3>Gameplay:</h3>
+    <p>The objective of the game is to collect as much food as possible while ensuring that your animal does not collide with any obstacles.
+       Control the animal with the arrow keys: use the up arrow to move upward, the down arrow to move downward, the right arrow to move right, and the left arrow to move left. 
+       Collect the food scattered throughout the environment; they earn you points and increase your score. Watch out for obstacles! If your animal collides with anything in the environment, the game ends, and your final score is displayed.
+       If you are logged in, the game allows you to save your scores on the scoreboard. To earn this, just simply close the difficulty popup window and login, or if you are new here, register yourself to be able to save your scores.</p>
+    <h3>Difficulty Levels:</h3>
+    <p>You can choose from different difficulty levels in the game: easy, medium, hard, and impossible.
+      The difficulty level adjusts the speed of the animal and the arrangement of obstacles, making each game unique.
+    </p>  
+    <h3>Registration and Login</h3>
+    <p>To save your scores, registration is required. Click the "Register" button and fill in your details to create a new account. Once registration is successful, a login popup will automatically appear. 
+       Enter your registered email and password to log in. After a successful login, you can save your scores and see them on the scoreboard. This will allow you to keep track of your progress and compete with other players.</p>
+    <h3>Score and Time Limit:</h3>
+    <p>During the game, you can see your score and the elapsed time. The score increases after collecting each piece of food.
+      The time limit indicates how much time you have left in the game. If time runs out or if you collect all the food, the game ends.</p>
+    <h3>Game Over and Restart:</h3>
+    <p>When the game ends, a popup window appears showing your final score.
+      In the popup window, you have the option to restart the game to face a new challenge or to close it and save your achieved scores into the scoreboard.
+      Animal Game is a fun and addictive game where you can test your skills and reactions in a simple yet challenging environment. Are you ready for the adventure? Go ahead, skillfully control your animal, and collect as much food as you can in the game!</p>
+  </div>
+</div>
+
+
+<script>
+  function howToPlay() {
+    var modal = document.getElementById("modal");
+    modal.style.display = "block";
+  }
+
+  function closeModal() {
+    var modal = document.getElementById("modal");
+    modal.style.display = "none";
+  }
+</script>
+
+<style>
+  /* Style the modal */
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    padding-top: 60px;
+  }
+
+  /* Modal Content/Box */
+  .modal-content {
+    background-color: #fefefe;
+    margin: 5% auto; /* 5% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+  }
+
+  /* Close Button */
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+</style>
+
+
+</body>
+</html>
+

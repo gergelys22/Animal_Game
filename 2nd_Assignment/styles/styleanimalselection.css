@@ -1,0 +1,60 @@
+body {
+  background-image: url("../Images/backgroundImage1.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: relative;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+
+h1 {
+  color:#fff;
+  font-weight: bold;
+  font-variant: small-caps;
+  font-family:Arial, Helvetica, sans-serif;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  max-width: 80%;
+}
+
+.button-container img {
+  width: 100px;
+  height: 100px;
+  margin: 5px;
+  cursor: pointer;
+  position: relative;
+}
+
+.button-container img:hover::after {
+  content: attr(alt);
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 5px;
+  border-radius: 5px;
+  display: block;
+  z-index: 1;
+}
+
+.button-container img:focus {
+  outline: none; /* Ez eltávolítja a kattintási keretet */
+}
+
+.button-container img:focus,
+.button-container img:hover {
+  background-color: rgba(255, 255, 0, 0.5); /* Példaként sárga háttérszínt adunk hozzá áttetszőséggel */
+  transform: scale(1.1); /* Példaként 10%-kal nagyobb méretre változik */
+  transition: background-color 0.3s, transform 0.3s; /* Animáció hozzáadása */
+}
