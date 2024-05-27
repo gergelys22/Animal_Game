@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Successful login
             $_SESSION['user_id'] = $row['id'];
             $_SESSION['username'] = $row['username'];
-            echo "OK"; // Sikeres bejelentkezés jelzése
+            echo "OK"; // Successful login feedback
         } else {
             // Unsuccessful login
             echo "Incorrect username or password!";

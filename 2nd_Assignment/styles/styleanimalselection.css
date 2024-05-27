@@ -49,12 +49,12 @@ h1 {
 }
 
 .button-container img:focus {
-  outline: none; /* Ez eltávolítja a kattintási keretet */
+  outline: none; /* Remove clicking board */
 }
 
 .button-container img:focus,
 .button-container img:hover {
-  background-color: rgba(255, 255, 0, 0.5); /* Példaként sárga háttérszínt adunk hozzá áttetszőséggel */
-  transform: scale(1.1); /* Példaként 10%-kal nagyobb méretre változik */
-  transition: background-color 0.3s, transform 0.3s; /* Animáció hozzáadása */
+  background-color: rgba(255, 255, 0, 0.5); /* For instance set it to yellow background */
+  transform: scale(1.1); /* For instance increase the size with 10% */
+  transition: background-color 0.3s, transform 0.3s; /* Add animation */
 }

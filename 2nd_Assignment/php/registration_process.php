@@ -42,7 +42,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($stmt->execute()) {
             // Successful registration
             echo "Registration successful!";
-            // Redirect to target website
         } else {
             echo "Error: " . $sql . "<br>" . $conn->error;
         }

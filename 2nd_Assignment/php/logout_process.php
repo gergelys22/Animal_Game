@@ -1,11 +1,11 @@
 <?php
-// Indítsuk újra a munkamenetet
+// Restart session
 session_start();
 
-// Töröljük a felhasználó munkamenetét
+// Delete user session
 session_destroy();
 
-// Visszajelzés küldése a kliensnek
+// Feedback to client
 echo "Logout successful!";
 
 //header("Location: http://localhost/2nd_Assignment/html/index.html")

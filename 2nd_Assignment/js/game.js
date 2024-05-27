@@ -589,7 +589,7 @@ function endGame(score) {
   .then(response => response.text())
   .then(data => {
     console.log(data);
-    // Frissítsd a scoreboardot
+    // Update scoreboard
     fetch('../php/get_scores.php')
       .then(response => response.text())
       .then(html => {
